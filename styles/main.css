@@ -41,6 +41,16 @@ body.landing {
   max-width: 64rem;
 }
 
+.clearfix:before,
+.clearfix:after {
+  content: " ";
+  display: table;
+}
+
+.clearfix:after {
+  clear: both;
+}
+
 /* Responsive */
 
 /* Medium and small screens (640px) */
