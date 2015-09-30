@@ -34,6 +34,13 @@ body.landing {
   left: 2rem;
 }
 
+/* Components */
+
+.container {
+  margin: 0 auto;
+  max-width: 64rem;
+}
+
 /* Responsive */
 
  /* Medium and small screens (640px) */
