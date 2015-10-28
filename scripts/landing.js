@@ -2,7 +2,7 @@ var pointsArray = document.getElementsByClassName('point');
 
 var animatePoints = function(points) {
   var revealPoint = function(point) {
-    point.setAttribute('class', 'point point-animate-in-finish');
+    point.setAttribute('class', 'point column third point-animate-in-finish');
   }
 
   for (var i = points.length - 1; i >= 0; i--) {
