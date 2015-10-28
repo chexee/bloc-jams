@@ -1,5 +1,5 @@
 var collectionItemTemplate =
-  + '<div class="collection-album-container column fourth">'
+  '<div class="collection-album-container column fourth">'
   + '  <img src="assets/images/album_covers/01.png"/>'
   + '  <div class="collection-album-info caption">'
   + '    <p>'
@@ -13,3 +13,12 @@ var collectionItemTemplate =
   + '  </div>'
   + '</div>'
 ;
+
+window.onload = function(){
+  var collectionContainer = document.getElementsByClassName('album-covers')[0];
+  collectionContainer.innerHTML = '';
+
+  for (var i = 0; i < 12; i++) {
+    collectionContainer.innerHTML += collectionItemTemplate;
+  }
+}
