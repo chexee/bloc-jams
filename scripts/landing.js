@@ -5,11 +5,8 @@ var animatePoints = function(points) {
     point.setAttribute('class', 'point column third point-animate-in-finish');
   }
 
-  for (var i = points.length - 1; i >= 0; i--) {
-    revealPoint(points[i]);
-  };
+  forEach(pointsArray, revealPoint);
 };
-
 
 window.onload = function() {
   // Automatically animate the points on a tall screen where scrolling can't trigger the animation
@@ -25,5 +22,4 @@ window.onload = function() {
       animatePoints(pointsArray);
     }
   });
-
 }
