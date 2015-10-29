@@ -45,6 +45,8 @@ var albumRothko = {
   ]
 };
 
+var albums = [albumPicasso, albumMarconi, albumRothko]
+
 var createSongRow = function(songNumber, songName, songLength) {
   var template =
       '<tr class="album-view-song-item">'
@@ -74,8 +76,27 @@ var setCurrentAlbum = function(album) {
   for (var i = 0; i < album.songs.length; i++) {
     albumSongList.innerHTML += createSongRow(i + 1, album.songs[i].name, album.songs[i].length);
   };
+
 };
 
  window.onload = function() {
-  setCurrentAlbum(albumPicasso);
+  var currentAlbum = albumPicasso;
+  var coverArt = document.getElementsByClassName('album-cover-art')[0]
+
+  setCurrentAlbum(currentAlbum);
+
+  coverArt.addEventListener( 'click', function(){
+    var i = albums.indexOf(currentAlbum);
+    var nextAlbum;
+
+    if (i === albums.length - 1) {
+      nextAlbum = albums[0];
+    } else {
+      nextAlbum = albums[i + 1];
+    }
+
+    setCurrentAlbum(nextAlbum);
+    currentAlbum = nextAlbum;
+  });
+
  };
