@@ -30,6 +30,21 @@ var albumMarconi = {
   ]
 };
 
+var albumRothko = {
+  name: 'Color Numbers',
+  artist: 'Mark Rothko',
+  label: 'Multiforms',
+  year: '1949',
+  albumArtUrl: 'assets/images/album_covers/20.png',
+  songs: [
+    { name: 'Rust and orange',                  length: '2:31'  },
+    { name: 'Magenta, Black, Green on Orange',  length: '3:41'  },
+    { name: 'Four darks in red',                length: '1:27'  },
+    { name: 'Black on Grey',                    length: '2:16'  },
+    { name: 'White center',                     length: '3:24'  }
+  ]
+};
+
 var createSongRow = function(songNumber, songName, songLength) {
   var template =
       '<tr class="album-view-song-item">'
