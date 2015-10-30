@@ -45,12 +45,10 @@ var albumRothko = {
   ]
 };
 
-var albums = [albumPicasso, albumMarconi, albumRothko]
-
 var createSongRow = function(songNumber, songName, songLength) {
   var template =
       '<tr class="album-view-song-item">'
-    + '  <td class="song-item-number">' + songNumber + '</td>'
+    + '  <td class="song-item-number" data-song-number="' + songNumber + '">' + songNumber + '</td>'
     + '  <td class="song-item-title">' + songName + '</td>'
     + '  <td class="song-item-duration">' + songLength + '</td>'
     + '</tr>'
@@ -58,6 +56,8 @@ var createSongRow = function(songNumber, songName, songLength) {
 
   return template;
 }
+
+// Display current albums
 
 var setCurrentAlbum = function(album) {
   var albumTitle = document.getElementsByClassName('album-view-title')[0];
@@ -79,7 +79,11 @@ var setCurrentAlbum = function(album) {
 
 };
 
- window.onload = function() {
+// Show play button
+var playButtonTemplate = '<a class="album-song-button"><span class="ion-play"></span></a>';
+
+window.onload = function() {
+  var albums = [albumPicasso, albumMarconi, albumRothko]
   var currentAlbum = albumPicasso;
   var coverArt = document.getElementsByClassName('album-cover-art')[0]
 
@@ -99,4 +103,19 @@ var setCurrentAlbum = function(album) {
     currentAlbum = nextAlbum;
   });
 
- };
+  var songListContainer = document.getElementsByClassName('album-view-song-list')[0];
+  var songRows = document.getElementsByClassName('album-view-song-item');
+
+  songListContainer.addEventListener('mouseover', function(event) {
+    if (event.target.parentElement.className === 'album-view-song-item') {
+         event.target.parentElement.querySelector('.song-item-number').innerHTML = playButtonTemplate;
+    }
+  });
+
+  for( i = 0; i < songRows.length; i++ ) {
+    songRows[i].addEventListener('mouseleave', function(event){
+      this.children[0].innerHTML = this.children[0].getAttribute('data-song-number');
+    });
+  }
+
+};
