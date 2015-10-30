@@ -51,11 +51,11 @@ body.album {
 /* Songs */
 
 .song-item-number {
-    width: 5%;
+    width: 6%;
 }
 
 .song-item-title {
-    width: 85%;
+    width: 84%;
 }
 
 .song-item-duration {
