@@ -79,6 +79,7 @@ var setCurrentAlbum = function(album) {
 
 };
 
+// Find a parent by its class name
 
 var findParentByClassName = function(childElement, parentClassName){
   var currentElement = childElement;
@@ -87,6 +88,8 @@ var findParentByClassName = function(childElement, parentClassName){
   }
   return currentElement;
 }
+
+// Get the song item number
 
 var getSongItem = function(element) {
   switch(element.className) {
@@ -106,9 +109,27 @@ var getSongItem = function(element) {
   }
 }
 
+// Click handler
+
+var clickHandler = function(targetElement) {
+  var songItem = getSongItem(targetElement);
+
+  if (currentlyPlayingSong === null ){
+    songItem.innerHTML = pauseButtonTemplate;
+    currentlyPlayingSong = songItem.getAttribute('data-song-number');
+  } else if (currentlyPlayingSong === songItem.getAttribute('data-song-number')) {
+    songItem.innerHTML = playButtonTemplate;
+    currentlyPlayingSong = null;
+  }
+};
+
 // Show play button
 var playButtonTemplate = '<a class="album-song-button"><span class="ion-play"></span></a>';
+// Show pause button
+var pauseButtonTemplate = '<a class="album-song-button"><span class="ion-pause"></span></a>';
 
+// Store state of playing songs
+var currentlyPlayingSong = null;
 
 window.onload = function() {
   var albums = [albumPicasso, albumMarconi, albumRothko]
@@ -143,6 +164,10 @@ window.onload = function() {
   for( i = 0; i < songRows.length; i++ ) {
     songRows[i].addEventListener('mouseleave', function(event){
       this.children[0].innerHTML = this.children[0].getAttribute('data-song-number');
+    });
+
+    songRows[i].addEventListener('click', function(event){
+
     });
   }
 
