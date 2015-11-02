@@ -89,7 +89,7 @@ var findParentByClassName = function(childElement, parentClassName){
   }
 
   while( currentElement.className !== parentClassName ) {
-    if ( !currentElement.parent) {
+    if ( !currentElement.parentElement ) {
       alert('No parent found with that class name');
       return;
     }
@@ -194,7 +194,5 @@ window.onload = function() {
       clickHandler(event.target);
     });
   }
-
-
 
 };
