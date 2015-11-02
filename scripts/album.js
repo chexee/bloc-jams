@@ -79,8 +79,36 @@ var setCurrentAlbum = function(album) {
 
 };
 
+
+var findParentByClassName = function(childElement, parentClassName){
+  var currentElement = childElement;
+  while( currentElement.className !== parentClassName ) {
+    currentElement = currentElement.parentElement;
+  }
+  return currentElement;
+}
+
+var getSongItem = function(element) {
+  switch(element.className) {
+    case 'album-song-button':
+    case 'ion-play':
+    case 'ion-pause':
+      return findParentByClassName('song-item-number');
+    case 'album-view-song-item':
+      return element.querySelector('.song-item-number');
+    case 'song-item-title':
+    case 'song-item-duration':
+      return findParentByClassName(element, 'album-view-song-item').querySelector('.song-item-number');
+    case 'song-item-number':
+      return element;
+    default:
+      return;
+  }
+}
+
 // Show play button
 var playButtonTemplate = '<a class="album-song-button"><span class="ion-play"></span></a>';
+
 
 window.onload = function() {
   var albums = [albumPicasso, albumMarconi, albumRothko]
@@ -117,5 +145,7 @@ window.onload = function() {
       this.children[0].innerHTML = this.children[0].getAttribute('data-song-number');
     });
   }
+
+
 
 };
