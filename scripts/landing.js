@@ -14,7 +14,7 @@ $(window).load(function() {
     animatePoints(pointsArray);
   }
 
-  var scrollDistance = $('.sellingPoints').offset().top - $(window).height() + 200;
+  var scrollDistance = $('.selling-points').offset().top - $(window).height() + 200;
 
   $(window).scroll( function(points) {
     if ( $(window).scrollTop() >= scrollDistance) {
