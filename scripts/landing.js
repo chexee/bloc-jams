@@ -8,18 +8,17 @@ var animatePoints = function(points) {
   forEach(pointsArray, revealPoint);
 };
 
-window.onload = function() {
+$(window).load(function() {
   // Automatically animate the points on a tall screen where scrolling can't trigger the animation
-  if (window.innerHeight > 950) {
+  if ($(window).height() > 950) {
     animatePoints(pointsArray);
   }
 
-  var sellingPoints = document.getElementsByClassName('selling-points')[0];
-  var scrollDistance = sellingPoints.getBoundingClientRect().top - window.innerHeight + 200;
+  var scrollDistance = $('.sellingPoints').offset().top - $(window).height() + 200;
 
-  window.addEventListener('scroll', function(points) {
-    if (document.body.scrollTop >= scrollDistance) {
-      animatePoints(pointsArray);
+  $(window).scroll( function(points) {
+    if ( $(window).scrollTop() >= scrollDistance) {
+      animatePoints();
     }
   });
-}
+});
