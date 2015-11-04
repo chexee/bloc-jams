@@ -1,11 +1,9 @@
-var pointsArray = document.getElementsByClassName('point');
-
-var animatePoints = function(points) {
-  var revealPoint = function(point) {
-    point.setAttribute('class', 'point column third point-animate-in-finish');
+var animatePoints = function() {
+  var revealPoint = function() {
+    $(this).addClass('point-animate-in-finish');
   }
 
-  forEach(pointsArray, revealPoint);
+  $.each($('.point'), revealPoint);
 };
 
 $(window).load(function() {
