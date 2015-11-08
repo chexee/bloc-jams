@@ -9,16 +9,19 @@ var createSongRow = function(songNumber, songName, songLength) {
 
   var $row = $(template);
 
-  // Show play button
+  // Show play and pause button on song rows
   var $playButtonTemplate = function(){
     var template =  '<a class="album-song-button"><span class="ion-play"></span></a>';
     return $(template);
   };
-  // Show pause button
   var $pauseButtonTemplate = function(){
     var template = '<a class="album-song-button"><span class="ion-pause"></span></a>';
     return $(template);
   };
+
+// Show play and pause on the player bar
+var playerBarPlayButton = '<span class="ion-play"></span>';
+var playerBarPauseButton = '<span class="ion-pause"></span>';
 
   var onHover = function() {
     var $songItemNumberCell = $(this).find('.song-item-number')
@@ -46,11 +49,14 @@ var createSongRow = function(songNumber, songName, songLength) {
       if(currentlyPlayingSongNumber !== null ) {
         $currentlyPlayingSongCell.text(currentlyPlayingSongNumber);
       }
+
       $(this).html($pauseButtonTemplate);
       currentlyPlayingSongNumber = songNumber;
-      currentSongFromAlbum = currentAlbum.songs[currentlyPlayingSongNumber - 1]
+      currentSongFromAlbum = currentAlbum.songs[currentlyPlayingSongNumber - 1];
+      updatePlayerBarSong();
     } else {
       $(this).html($playButtonTemplate);
+      $('.main-controls .play-pause').html(playerBarPlayButton);
       currentlyPlayingSongNumber = null;
       currentSongFromAlbum = null;
     }
@@ -86,12 +92,19 @@ var setCurrentAlbum = function(album) {
 
 };
 
+// Give us the index of a song given the album object and song object
+var trackIndex = function(album, song) {
+  return album.songs.indexOf(song);
+};
+
 // Update Player Bar
 
 var updatePlayerBarSong = function(){
   $('.currently-playing .song-name').text(currentSongFromAlbum.name);
   $('.currently-playing .artist-name').text(currentAlbum.artist);
-  $('.currently-playing .artist-song-mobile').text(currentAlbum.artist + ' - ' currentSongFromAlbum.name);
+  $('.currently-playing .artist-song-mobile').text(currentAlbum.artist + ' - ' + currentSongFromAlbum.name);
+
+  $('.main-controls .play-pause').html(playerBarPauseButton);
 };
 
 // Store state of playing songs
