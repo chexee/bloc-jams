@@ -135,11 +135,10 @@ var setCurrentAlbum = function(album) {
 $(document).ready (function() {
   var albums = [albumPicasso, albumMarconi, albumRothko]
   var currentAlbum = albumPicasso;
-  var coverArt = document.getElementsByClassName('album-cover-art')[0]
 
   setCurrentAlbum(currentAlbum);
 
-  coverArt.addEventListener( 'click', function(){
+  $coverArt.click(function(){
     var i = albums.indexOf(currentAlbum);
     var nextAlbum;
 
