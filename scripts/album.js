@@ -48,9 +48,11 @@ var createSongRow = function(songNumber, songName, songLength) {
       }
       $(this).html($pauseButtonTemplate);
       currentlyPlayingSongNumber = songNumber;
+      currentSongFromAlbum = currentAlbum.songs[currentlyPlayingSongNumber - 1]
     } else {
       $(this).html($playButtonTemplate);
       currentlyPlayingSongNumber = null;
+      currentSongFromAlbum = null;
     }
   };
 
