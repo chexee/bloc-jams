@@ -86,6 +86,14 @@ var setCurrentAlbum = function(album) {
 
 };
 
+// Update Player Bar
+
+var updatePlayerBarSong = function(){
+  $('.currently-playing .song-name').text(currentSongFromAlbum.name);
+  $('.currently-playing .artist-name').text(currentAlbum.artist);
+  $('.currently-playing .artist-song-mobile').text(currentAlbum.artist + ' - ' currentSongFromAlbum.name);
+};
+
 // Store state of playing songs
 var currentAlbum = null;
 var currentlyPlayingSongNumber = null;
