@@ -1,6 +1,3 @@
-// Store state of playing songs
-var currentlyPlayingSong = null;
-
 var createSongRow = function(songNumber, songName, songLength) {
   var template =
       '<tr class="album-view-song-item">'
@@ -27,7 +24,7 @@ var createSongRow = function(songNumber, songName, songLength) {
     var $songItemNumberCell = $(this).find('.song-item-number')
     var songNumber = $songItemNumberCell.attr('data-song-number');
 
-    if ( songNumber !== currentlyPlayingSong) {
+    if ( songNumber !== currentlyPlayingSongNumber) {
       $songItemNumberCell.html($playButtonTemplate);
     }
   };
@@ -36,24 +33,24 @@ var createSongRow = function(songNumber, songName, songLength) {
     var $songItemNumberCell = $(this).find('.song-item-number')
     var songNumber = $songItemNumberCell.attr('data-song-number');
 
-    if (songNumber !== currentlyPlayingSong) {
+    if (songNumber !== currentlyPlayingSongNumber) {
        $songItemNumberCell.text(songNumber);
     }
   };
 
   var clickHandler = function(){
     var songNumber = $(this).attr('data-song-number');
-    var $currentlyPlayingSongCell = $('.song-item-number[data-song-number=' + currentlyPlayingSong + ']');
+    var $currentlyPlayingSongCell = $('.song-item-number[data-song-number=' + currentlyPlayingSongNumber + ']');
 
-    if(songNumber !== currentlyPlayingSong) {
-      if(currentlyPlayingSong !== null ) {
-        $currentlyPlayingSongCell.text(currentlyPlayingSong);
+    if(songNumber !== currentlyPlayingSongNumber) {
+      if(currentlyPlayingSongNumber !== null ) {
+        $currentlyPlayingSongCell.text(currentlyPlayingSongNumber);
       }
       $(this).html($pauseButtonTemplate);
-      currentlyPlayingSong = songNumber;
+      currentlyPlayingSongNumber = songNumber;
     } else {
       $(this).html($playButtonTemplate);
-      currentlyPlayingSong = null;
+      currentlyPlayingSongNumber = null;
     }
   };
 
@@ -65,6 +62,8 @@ var createSongRow = function(songNumber, songName, songLength) {
 // Display current albums
 
 var setCurrentAlbum = function(album) {
+  currentAlbum = album;
+
   var $albumTitle = $('.album-view-title');
   var $albumArtist = $('.album-view-artist');
   var $albumReleaseInfo = $('.album-view-release-info');
@@ -85,9 +84,13 @@ var setCurrentAlbum = function(album) {
 
 };
 
+// Store state of playing songs
+var currentAlbum = null;
+var currentlyPlayingSongNumber = null;
+var currentSongFromAlbum = null;
+
 $(document).ready (function() {
   var albums = [albumPicasso, albumMarconi, albumRothko]
-  var currentAlbum = albumPicasso;
 
   setCurrentAlbum(currentAlbum);
 
