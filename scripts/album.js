@@ -85,6 +85,27 @@ var setCurrentAlbum = function(album) {
 
 };
 
+var updateSeekPercentage = function($seekBar, seekBarFillRatio) {
+  var offsetXPercent = seekBarFillRatio * 100;
+  offsetXPercent = Math.max(0, offsetXPercent);
+  offsetXPercent = Math.min(100, offsetXPercent);
+
+  var percentageString = offsetXPercent + '%';
+  $seekBar.find('.fill').width(percentageString);
+  $seekBar.find('.thumb').css({left: percentageString});
+};
+
+var setupSeekBars = function() {
+  var $seekBars = $('.player-bar .seek-bar');
+
+  $seekBars.click(function(event) {
+    var offsetX = event.pageX - $(this).offset().left;
+    var barWidth = $(this).width();
+    var seekBarFillRatio = offsetX / barWidth;
+    updateSeekPercentage($(this), seekBarFillRatio);
+  });
+};
+
 var setSong = function(songNumber){
   if(currentSoundFile) {
     currentSoundFile.stop();
@@ -210,6 +231,8 @@ $(document).ready (function() {
   var albums = [albumPicasso, albumMarconi, albumRothko]
 
   setCurrentAlbum(albumPicasso);
+  setupSeekBars();
+
   $previousButton.click(prevSong);
   $nextButton.click(nextSong);
   $playPauseButton.click(togglePlayFromPlayerBar);
