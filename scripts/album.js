@@ -33,19 +33,25 @@ var createSongRow = function(songNumber, songName, songLength) {
     var songNumber = parseInt($(this).attr('data-song-number'));
     var $currentlyPlayingSongCell = $getSongNumberCell(currentlyPlayingSongNumber);
 
-    if(songNumber !== currentlyPlayingSongNumber) {
+    if(currentlyPlayingSongNumber !== songNumber) {
       if(currentlyPlayingSongNumber !== null ) {
         $currentlyPlayingSongCell.text(currentlyPlayingSongNumber);
       }
-
       $(this).html($pauseButtonTemplate);
+      $('.main-controls .play-pause').html(playerBarPauseButton);
       setSong(songNumber);
-
+      currentSoundFile.play();
       updatePlayerBarSong();
     } else {
-      $(this).html($playButtonTemplate);
-      $('.main-controls .play-pause').html(playerBarPlayButton);
-      setSong(null);
+      if(currentSoundFile.isPaused()) {
+        $(this).html($pauseButtonTemplate);
+        $('.main-controls .play-pause').html(playerBarPauseButton);
+        currentSoundFile.play();
+      } else if( !currentSoundFile.isPaused() ) {
+        $(this).html($playButtonTemplate);
+        $('.main-controls .play-pause').html(playerBarPlayButton);
+        currentSoundFile.pause();
+      }
     }
   };
 
@@ -80,9 +86,24 @@ var setCurrentAlbum = function(album) {
 };
 
 var setSong = function(songNumber){
+  if(currentSoundFile) {
+    currentSoundFile.stop();
+  }
   currentlyPlayingSongNumber = parseInt(songNumber);
-  currentSongFromAlbum = currentAlbum.songs[songNumber - 1]
+  currentSongFromAlbum = currentAlbum.songs[songNumber - 1];
+
+  currentSoundFile = new buzz.sound(currentSongFromAlbum.audioUrl, {
+    formats: ['mp3'],
+    preload: true
+  });
+  setVolume(currentVolume);
 }
+
+var setVolume = function(volume){
+  if(currentSoundFile){
+    currentSoundFile.setVolume(volume);
+  }
+};
 
 var $getSongNumberCell = function(number) {
   return $('.song-item-number[data-song-number=' + number + ']');
@@ -112,9 +133,8 @@ var trackIndex = function(album, song) {
 var updatePlayerBarSong = function(){
   $('.currently-playing .song-name').text(currentSongFromAlbum.name);
   $('.currently-playing .artist-name').text(currentAlbum.artist);
+  $('.currently-playing .total-time').text(currentSongFromAlbum.length);
   $('.currently-playing .artist-song-mobile').text(currentAlbum.artist + ' - ' + currentSongFromAlbum.name);
-
-  $('.main-controls .play-pause').html(playerBarPauseButton);
 };
 
 // Play next song
@@ -130,6 +150,8 @@ var nextSong = function(){
   }
 
   setSong(currentSongIndex + 1);
+  currentSoundFile.play();
+  $('.main-controls .play-pause').html(playerBarPauseButton);
 
   $getSongNumberCell(prevSongNumber).html(prevSongNumber);
   $getSongNumberCell(currentlyPlayingSongNumber).html($pauseButtonTemplate);
@@ -149,19 +171,40 @@ var prevSong = function(){
   }
 
   setSong(currentSongIndex + 1);
+  currentSoundFile.play();
+  $('.main-controls .play-pause').html(playerBarPauseButton);
 
   $getSongNumberCell(prevSongNumber).html(prevSongNumber);
   $getSongNumberCell(currentlyPlayingSongNumber).html($pauseButtonTemplate);
   updatePlayerBarSong();
 }
 
+// Player bar play/pause
+
+var togglePlayFromPlayerBar = function(){
+  if(currentSoundFile) {
+  currentSoundFile.togglePlay();
+  if(currentSoundFile.isPaused()) {
+    $('.main-controls .play-pause').html(playerBarPlayButton);
+    $getSongNumberCell(currentlyPlayingSongNumber).html($playButtonTemplate);
+  } else if(!currentSoundFile.isPaused()) {
+    $('.main-controls .play-pause').html(playerBarPauseButton);
+    $getSongNumberCell(currentlyPlayingSongNumber).html($pauseButtonTemplate);
+  }
+}
+}
+
 // Store state of playing songs
 var currentAlbum = null;
 var currentlyPlayingSongNumber = null;
 var currentSongFromAlbum = null;
+var currentSoundFile = null;
+var currentVolume = 80;
+
 
 var $previousButton = $('.main-controls .previous');
 var $nextButton = $('.main-controls .next');
+var $playPauseButton = $('.main-controls .play-pause');
 
 $(document).ready (function() {
   var albums = [albumPicasso, albumMarconi, albumRothko]
@@ -169,7 +212,7 @@ $(document).ready (function() {
   setCurrentAlbum(albumPicasso);
   $previousButton.click(prevSong);
   $nextButton.click(nextSong);
-  $('')
+  $playPauseButton.click(togglePlayFromPlayerBar);
 
 
   $('.album-cover-art').click(function(){
