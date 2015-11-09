@@ -42,11 +42,13 @@ var createSongRow = function(songNumber, songName, songLength) {
       setSong(songNumber);
       currentSoundFile.play();
       updatePlayerBarSong();
+      updateSeekBarWhileSongPlays();
     } else {
       if(currentSoundFile.isPaused()) {
         $(this).html($pauseButtonTemplate);
         $('.main-controls .play-pause').html(playerBarPauseButton);
         currentSoundFile.play();
+        updateSeekBarWhileSongPlays();
       } else if( !currentSoundFile.isPaused() ) {
         $(this).html($playButtonTemplate);
         $('.main-controls .play-pause').html(playerBarPlayButton);
@@ -83,6 +85,17 @@ var setCurrentAlbum = function(album) {
     $albumSongList.append($newRow);
   };
 
+};
+
+var updateSeekBarWhileSongPlays = function(){
+  if(currentSoundFile) {
+    currentSoundFile.bind('timeupdate', function(event){
+      var seekBarFillRatio = this.getTime() / this.getDuration();
+      var $seekBar = $('.seek-control .seek-bar');
+
+      updateSeekPercentage($seekBar, seekBarFillRatio);
+    });
+  }
 };
 
 var updateSeekPercentage = function($seekBar, seekBarFillRatio) {
@@ -188,6 +201,7 @@ var nextSong = function(){
   setSong(currentSongIndex + 1);
   currentSoundFile.play();
   $('.main-controls .play-pause').html(playerBarPauseButton);
+  updateSeekBarWhileSongPlays();
 
   $getSongNumberCell(prevSongNumber).html(prevSongNumber);
   $getSongNumberCell(currentlyPlayingSongNumber).html($pauseButtonTemplate);
@@ -209,6 +223,7 @@ var prevSong = function(){
   setSong(currentSongIndex + 1);
   currentSoundFile.play();
   $('.main-controls .play-pause').html(playerBarPauseButton);
+  updateSeekBarWhileSongPlays();
 
   $getSongNumberCell(prevSongNumber).html(prevSongNumber);
   $getSongNumberCell(currentlyPlayingSongNumber).html($pauseButtonTemplate);
