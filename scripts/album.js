@@ -118,7 +118,7 @@ var setupSeekBars = function () {
 
     if ($(this).parent('.seek-control').length) {
       seek(seekBarFillRatio * currentSongFromAlbum.length);
-    } else if ($(this).parent('.volume').length) {
+    } else {
       setVolume(seekBarFillRatio * 100);
     }
   });
@@ -133,7 +133,7 @@ var setupSeekBars = function () {
 
       if ($(this).parent('.seek-control').length) {
         seek(seekBarFillRatio * currentSongFromAlbum.length);
-      } else if ($(this).parent('.volume').length) {
+      } else {
         setVolume(seekBarFillRatio * 100);
       }
     });
