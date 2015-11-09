@@ -85,6 +85,9 @@ var setCurrentAlbum = function(album) {
 };
 
 var setSong = function(songNumber){
+  if(currentSoundFile) {
+    currentSoundFile.stop();
+  }
   currentlyPlayingSongNumber = parseInt(songNumber);
   currentSongFromAlbum = currentAlbum.songs[songNumber - 1];
 
@@ -140,6 +143,7 @@ var nextSong = function(){
   }
 
   setSong(currentSongIndex + 1);
+  currentSoundFile.play();
 
   $getSongNumberCell(prevSongNumber).html(prevSongNumber);
   $getSongNumberCell(currentlyPlayingSongNumber).html($pauseButtonTemplate);
@@ -159,6 +163,7 @@ var prevSong = function(){
   }
 
   setSong(currentSongIndex + 1);
+  currentSoundFile.play();
 
   $getSongNumberCell(prevSongNumber).html(prevSongNumber);
   $getSongNumberCell(currentlyPlayingSongNumber).html($pauseButtonTemplate);
