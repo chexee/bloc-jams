@@ -115,6 +115,12 @@ var setupSeekBars = function () {
     var barWidth = $(this).width();
     var seekBarFillRatio = offsetX / barWidth;
     updateSeekPercentage($(this), seekBarFillRatio);
+
+    if ($(this).parent('.seek-control')) {
+      seek(seekBarFillRatio * currentSongFromAlbum.length);
+    } else if ($seekBar.parent('volume')) {
+      setVolume(seekBarFillRatio * 100);
+    }
   });
 
   $seekBars.find('.thumb').mousedown(function (event) {
@@ -131,6 +137,7 @@ var setupSeekBars = function () {
       $(document).unbind('mouseup.thumb');
     });
   });
+
 };
 
 var setSong = function (songNumber) {
@@ -147,7 +154,7 @@ var setSong = function (songNumber) {
   setVolume(currentVolume);
 };
 
-var seek = function () {
+var seek = function (time) {
   if (currentSoundFile) {
     currentSoundFile.setTime(time);
   }
