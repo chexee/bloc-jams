@@ -178,7 +178,7 @@ var prevSong = function(){
 
 // Player bar play/pause
 
-var togglePlayerBarButton = function(){
+var togglePlayFromPlayerBar = function(){
   if(currentSoundFile) {
   currentSoundFile.togglePlay();
   if(currentSoundFile.isPaused()) {
