@@ -116,9 +116,9 @@ var setupSeekBars = function () {
     var seekBarFillRatio = offsetX / barWidth;
     updateSeekPercentage($(this), seekBarFillRatio);
 
-    if ($(this).parent('.seek-control')) {
+    if ($(this).parent('.seek-control').length) {
       seek(seekBarFillRatio * currentSongFromAlbum.length);
-    } else if ($seekBar.parent('volume')) {
+    } else if ($(this).parent('.volume').length) {
       setVolume(seekBarFillRatio * 100);
     }
   });
