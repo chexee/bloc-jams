@@ -42,6 +42,7 @@ var createSongRow = function (songNumber, songName, songLength) {
       currentSoundFile.play();
       updatePlayerBarSong();
       updateSeekBarWhileSongPlays();
+      updateSeekPercentage($('.volume .seek-bar'), currentSoundFile.getVolume() / 100);
     } else {
       if (currentSoundFile.isPaused()) {
         $(this).html($pauseButtonTemplate);
